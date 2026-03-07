@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
-        .auth-form button {
+        .auth-form button[type="submit"] {
             width: 100%;
         }
         .auth-link {
@@ -99,6 +99,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 20px;
             font-size: 14px;
         }
+        .password-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .password-container input {
+            margin-bottom: 0 !important;
+            padding-right: 45px !important;
+        }
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 0px;
+            transform: translateY(-50%);
+            height: 100%;
+            width: 45px;
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .password-toggle:hover {
+            color: #4b5563;
+        }
     </style>
 </head>
 <body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Inter', sans-serif; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center;">
@@ -117,7 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form action="register.php" method="POST" class="auth-form">
             <input type="text" name="username" placeholder="Username" required autofocus>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="password-container">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <button type="button" class="password-toggle" onclick="togglePassword('password', this)" title="Toggle password visibility">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
             <button type="submit" class="btn-primary">Register</button>
         </form>
         
@@ -125,5 +159,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Already have an account? <a href="login.php">Log in</a>
         </div>
     </div>
+
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            } else {
+                input.type = 'password';
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+            }
+        }
+    </script>
 </body>
 </html>
