@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 
 // Redirect to index if already logged in

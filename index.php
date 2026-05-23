@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 
 // Redirect to login if user is not authenticated
@@ -68,15 +69,34 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if (count($tasks) > 0): ?>
                 <ul>
                     <?php foreach ($tasks as $task): ?>
-                        <li class="task-item">
-                            <span class="task-text"><?php echo htmlspecialchars($task['task']); ?></span>
-                            <!-- Delete Task Form -->
-                            <form action="delete.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
-                                <button type="submit" class="btn-delete" title="Delete Task">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </form>
+                        <li class="task-item <?php echo $task['is_completed'] ? 'completed' : ''; ?>">
+                            <div class="task-left">
+                                <!-- Toggle Status Form -->
+                                <form action="toggle_status.php" method="POST" class="toggle-form">
+                                    <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
+                                    <button type="submit" class="btn-toggle" title="<?php echo $task['is_completed'] ? 'Mark as incomplete' : 'Mark as complete'; ?>">
+                                        <?php if ($task['is_completed']): ?>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-checked"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        <?php else: ?>
+                                            <div class="icon-uncheck"></div>
+                                        <?php endif; ?>
+                                    </button>
+                                </form>
+                                <span class="task-text"><?php echo htmlspecialchars($task['task']); ?></span>
+                            </div>
+                            <div class="task-actions">
+                                <!-- Edit Task Button -->
+                                <a href="edit.php?id=<?php echo $task['id']; ?>" class="btn-edit" title="Edit Task">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                </a>
+                                <!-- Delete Task Form -->
+                                <form action="delete.php" method="POST" style="display:inline;">
+                                    <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
+                                    <button type="submit" class="btn-delete" title="Delete Task">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                    </button>
+                                </form>
+                            </div>
                         </li>
                     <?php endforeach; ?>
                 </ul>

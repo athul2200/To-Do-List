@@ -49,6 +49,7 @@ header h1 {
     margin-bottom: 0.5rem;
     background: linear-gradient(to right, #60a5fa, #a78bfa);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -124,11 +125,55 @@ header p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     background-color: var(--input-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+}
+
+.task-item.completed {
+    opacity: 0.6;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.btn-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.icon-uncheck {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.btn-toggle:hover .icon-uncheck {
+    border-color: var(--accent);
+}
+
+.icon-checked {
+    color: var(--accent);
 }
 
 .task-item:hover {
@@ -159,6 +204,28 @@ header p {
 .btn-delete:hover {
     color: var(--danger);
     background-color: rgba(239, 68, 68, 0.1);
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn-edit {
+    color: var(--text-secondary);
+    padding: 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-edit:hover {
+    color: var(--accent);
+    background-color: rgba(59, 130, 246, 0.1);
 }
 
 .empty-state {
